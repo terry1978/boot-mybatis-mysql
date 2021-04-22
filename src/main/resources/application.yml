@@ -1,0 +1,61 @@
+logging:
+  level:
+    root: info
+    org:
+      penguin:
+        boot: debug
+      springframework:
+        web: INFO
+        security: INFO
+mybatis:
+#  configuration:
+#    default-fetch-size: 100
+#    default-statement-timeout: 30
+#    map-underscore-to-camel-case: true
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/*.xml
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: true
+  support-methods-arguments: true
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    initialization-mode: always
+    platform: mysql # 在initialization-mode值为always时，使用schema可以执行特定的sql文件，完成数据库表结构和数据的初始化。如果按照标准走，可以分成表结构和数据两部分
+    #    schema: classpath:schema-mysql.sql
+    initialSize: 4
+    maxActive: 100
+    minIdle: 10
+    password: ab12CD34
+    url: jdbc:mysql://127.0.0.1:3306/boot?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&autoReconnect=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    username: root
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      indent_output: true
+    time-zone: GMT+8
+  redis:
+    # 地址
+    host: 127.0.0.1
+    # 端口，默认为6379
+    port: 6379
+    # 数据库索引
+    database: 0
+    # 密码
+    password:
+    # 连接超时时间
+    timeout: 10s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.penguin.boot.mapper.EventLogMapper">
+
+    <resultMap type="org.penguin.boot.model.EventLog" id="EventLogResult">
+        <result property="id" column="id"/>
+        <result property="user" column="user" typeHandler="org.penguin.boot.mybatis.type.JsonUserTypeHandler"/>
+        <result property="createdTime" column="created_time"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="EventLogResult">
+        select id, user, created_time from tbl_event_logs
+    </select>
+
+    <insert id="insertEventLog" useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_event_logs
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user != null">user,</if>
+            <if test="createdTime != null">created_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="user != null">#{user, typeHandler=org.penguin.boot.mybatis.type.JsonUserTypeHandler},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+        </trim>
+    </insert>
+</mapper>

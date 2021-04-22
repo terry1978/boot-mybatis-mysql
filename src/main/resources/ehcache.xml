@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="false" monitoring="autodetect" dynamicConfig="true">
+    <diskStore path="D:/cache"/>
+    <defaultCache eternal="true" maxElementsInMemory="1000" timeToIdleSeconds="3600"
+                  timeToLiveSeconds="3600" maxEntriesLocalHeap="1000" maxEntriesLocalDisk="10000000"
+                  memoryStoreEvictionPolicy="LRU" statistics="true" maxElementsOnDisk="1000000" overflowToDisk="true"
+                  maxBytesLocalDisk="500M"
+                  diskPersistent="true" diskExpiryThreadIntervalSeconds="3600"/>
+
+    <cache name="org.penguin.boot.mapper.OrganizationMapper" eternal="false" maxElementsInMemory="1000" timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600" maxEntriesLocalHeap="1000" maxEntriesLocalDisk="10000000"
+           memoryStoreEvictionPolicy="LRU" statistics="true" maxElementsOnDisk="1000000" overflowToDisk="true"
+           maxBytesLocalDisk="500M"
+           diskPersistent="true" diskExpiryThreadIntervalSeconds="3600"/>
+</ehcache>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.penguin.boot.mapper.RoleMapper">
+
+    <resultMap type="org.penguin.boot.model.Role" id="RoleResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="comment" column="comment"/>
+        <result property="createdTime" column="created_time"/>
+    </resultMap>
+
+    <resultMap type="org.penguin.boot.model.Role" extends="RoleResult" id="RoleContainUsersResult">
+        <collection property="users" columnPrefix="user_" ofType="org.penguin.boot.model.User">
+            <result property="id" column="id"/>
+            <result property="fullName" column="user_full_name"/>
+            <result property="userName" column="user_user_name"/>
+            <result property="password" column="user_password"/>
+            <result property="email" column="user_email"/>
+            <result property="createdTime" column="user_created_time" jdbcType="TIMESTAMP"/>
+        </collection>
+    </resultMap>
+    
+</mapper>

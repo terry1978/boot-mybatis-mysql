@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.penguin.boot.mapper.OrganizationMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <resultMap type="org.penguin.boot.model.Organization" id="OrganizationResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="createdTime" column="created_time"/>
+    </resultMap>
+
+    <sql id="selectOrganization">
+        select id, name, code, created_time
+        from tbl_organizations</sql>
+
+    <select id="getOrganizationsByName" resultMap="OrganizationResult">
+        <include refid="selectOrganization"/>
+        <where>
+            status = '0'
+            <!--<if test="name != null and name != ''">-->
+            <if test="@org.penguin.common.util.StringUtil@isNotBlank(name)">
+                <!--and name like concat('%', #{name}, '%')-->
+                <!--通过bind解决concat函数在mysql中支持多个参数，而在oracle中只支持2个参数的问题，可以减少更换数据库引起的麻烦-->
+                <bind name="organizationNameLike" value="'%'+@org.penguin.common.util.StringUtil@trim(name)+'%'"/>
+                and name like #{organizationNameLike}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOrganizationById" resultMap="OrganizationResult">
+        <include refid="selectOrganization"/>
+        <where>
+            status = '0' and id = #{id}
+        </where>
+    </select>
+
+    <insert id="insertOrganization" useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_organizations
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="code != null and code != ''">code,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="code != null and code != ''">#{code},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertOrganizationList" useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_organizations (name, code, created_time) values
+        <foreach collection="organizations" item="organization" separator=",">
+            (#{organization.name}, #{organization.code}, #{organization.createdTime, jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <delete id="deleteOrganizationById" parameterType="LONG">
+        update tbl_organizations
+        set status = '1'
+        where id = #{id}
+    </delete>
+
+    <select id="getOrganizationsBuNameAndStatus" resultMap="OrganizationResult">
+        <include refid="selectOrganization"/>
+        <where>
+            status = #{status}
+            <bind name="organizationNameLike" value="'%'+@org.penguin.common.util.StringUtil@trim(name)+'%'"/>
+            and name like #{organizationNameLike}
+
+        </where>
+    </select>
+</mapper>
