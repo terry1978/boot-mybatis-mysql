@@ -9,7 +9,9 @@ import java.util.List;
 @Mapper
 public interface OrganizationMapper {
 
-    List<Organization> getOrganizationsByName(String name);
+    Organization getOrganizationsById(@Param("organizationId") Long id);
+
+    List<Organization> getOrganizationsByName(@Param("name") String name);
 
     int insertOrganization(Organization organization);
 
@@ -18,4 +20,5 @@ public interface OrganizationMapper {
     int insertOrganizationList(List<Organization> organizations);
 
     List<Organization> getOrganizationsBuNameAndStatus(@Param("name") String name, @Param("status") String status);
+
 }

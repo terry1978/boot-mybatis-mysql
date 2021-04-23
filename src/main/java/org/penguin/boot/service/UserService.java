@@ -18,4 +18,5 @@ public interface UserService {
 
     User createUser(User user);
 
+    int updateUser(User user);
 }

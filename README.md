@@ -2,14 +2,20 @@
 
 数据脚本**~~~~~~~~**
 CREATE TABLE `tbl_users` (
-`id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键',
-`full_name` VARCHAR(45) NULL COMMENT '姓名',
-`user_name` VARCHAR(45) NULL COMMENT '账号',
-`password` VARCHAR(45) NULL COMMENT '密码',
-`email` VARCHAR(45) NULL COMMENT 'Email',
-`created_time` DATETIME NOT NULL DEFAULT now() COMMENT '创建时间',
-PRIMARY KEY (`id`, `created_time`))
-COMMENT = '用户表';
+`id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+`organization_id` int DEFAULT NULL COMMENT '国家表主键',
+`full_name` varchar(45) DEFAULT NULL COMMENT '姓名',
+`user_name` varchar(45) DEFAULT NULL COMMENT '账号',
+`password` varchar(45) DEFAULT NULL COMMENT '密码',
+`email` varchar(45) DEFAULT NULL COMMENT 'Email',
+`logo` blob,
+`comment` text,
+`created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`updated_time` datetime DEFAULT NULL,
+PRIMARY KEY (`id`),
+KEY `fk_country_id_from_countries_idx` (`organization_id`),
+CONSTRAINT `fk_country_id_from_countries` FOREIGN KEY (`organization_id`) REFERENCES `tbl_organizations` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户表';
 
 ALTER TABLE `tbl_users`
 DROP PRIMARY KEY,
@@ -38,6 +44,14 @@ COMMENT = '角色表' ;
 
 INSERT INTO `boot`.`tbl_users` (`organization_id`, `full_name`, `user_name`, `password`, `email`) VALUES ('1', '系统管理员', 'administrator', 'admin123', 'admin@penguin.org');
 
+
+SELECT length('中')=3, char_length('中')=1, 3=4;
+show variables like '%character%';
+show variables like 'collation%';
+show charset; -- 查看MySQL支持的字符集
+show full columns from tbl_users; -- 查看表结构
+
+show table status from boot like 'tbl_users'; -- 查看数据库中某个表的属性
 **遇到的问题**
 1. 如果model类没有getter方法，rest controller返回报错: Resolved [org.springframework.web.HttpMediaTypeNotAcceptableException: Could not find acceptable rep
 

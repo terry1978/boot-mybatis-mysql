@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface OrganizationService {
 
+    Organization getOrganizationsById(Long id);
+
     List<Organization> getOrganizationsByName(String name);
 
     int insertOrganization(Organization organization);

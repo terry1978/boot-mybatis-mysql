@@ -1,4 +1,4 @@
-package org.penguin.boot.web;
+package org.penguin.boot.controllerr;
 
 import lombok.extern.slf4j.Slf4j;
 import org.penguin.boot.model.EventLog;

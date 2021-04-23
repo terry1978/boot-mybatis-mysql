@@ -15,6 +15,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     OrganizationMapper organizationMapper;
 
     @Override
+    public Organization getOrganizationsById(Long id) {
+        return organizationMapper.getOrganizationsById(id);
+    }
+
+    @Override
     public List<Organization> getOrganizationsByName(String name) {
         return organizationMapper.getOrganizationsByName(name);
     }

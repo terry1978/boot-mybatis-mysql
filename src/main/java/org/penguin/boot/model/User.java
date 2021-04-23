@@ -23,6 +23,10 @@ public class User implements Serializable {
 
     private String email;
 
+    private String comment;
+
+    private byte[] logo;
+
     private Organization organization;
 
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -16,6 +16,13 @@
         select id, name, code, created_time
         from tbl_organizations</sql>
 
+    <select id="getOrganizationsById" resultMap="OrganizationResult">
+        <include refid="selectOrganization"/>
+        <where>
+            <if test="organizationId != null">id=#{organizationId}</if>
+        </where>
+    </select>
+
     <select id="getOrganizationsByName" resultMap="OrganizationResult">
         <include refid="selectOrganization"/>
         <where>

@@ -11,6 +11,8 @@
         <result property="userName" column="user_name"/>
         <result property="password" column="password"/>
         <result property="email" column="email"/>
+        <result property="logo" column="logo" jdbcType="BLOB"/>
+        <result property="comment" column="comment"/>
         <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
@@ -160,12 +162,34 @@
             <if test="userName != null and userName != ''">user_name,</if>
             <if test="password != null and password != ''">password,</if>
             <if test="email != null and email != ''">email,</if>
+            <if test="logo != null">logo,</if>
+            <if test="comment != null and comment != ''">comment,</if>
+            <if test="organization != null and organization.id != null">organization_id,</if>
+            updated_time
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="fullName != null and fullName != ''">#{fullName},</if>
             <if test="userName != null and userName != ''">#{userName},</if>
             <if test="password != null and password != ''">#{password},</if>
             <if test="email != null and email != ''">#{email},</if>
+            <if test="logo != null">#{logo},</if>
+            <if test="comment != null and comment != ''">#{comment},</if>
+            <if test="organization != null and organization.id != null">#{organization.id},</if>
+            sysdate()
         </trim>
     </insert>
+
+    <update id="updateUser">
+        update tbl_users
+        <set>
+            <if test="fullName != null and fullName != ''">full_name=#{fullName},</if>
+            <if test="userName != null and userName != ''">user_name=#{userName},</if>
+            <if test="email != null and email != ''">email=#{email},</if>
+            <if test="logo != null">logo=#{logo},</if>
+            <if test="comment != null and comment != ''">comment=#{comment},</if>
+            <if test="organization != null and organization.id != null">organization_id=#{organization.id},</if>
+            updated_time = sysdate()
+        </set>
+        where id=#{id}
+    </update>
 </mapper>
