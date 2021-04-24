@@ -27,4 +27,9 @@ public class RoleController {
     public ResponseEntity<Role> getRoleAndLazyUsersById(@PathVariable("id") Long roleId) {
         return ResponseEntity.ok(roleService.selectRoleAndLazyUsersById(roleId));
     }
+
+    @GetMapping("/choose/{id}")
+    public ResponseEntity<Role> getRoleAndLazyUsersChooseRoleEnabledById(@PathVariable("id") Long roleId) {
+        return ResponseEntity.ok(roleService.selectRoleAndLazyUsersChooseRoleEnabledById(roleId));
+    }
 }

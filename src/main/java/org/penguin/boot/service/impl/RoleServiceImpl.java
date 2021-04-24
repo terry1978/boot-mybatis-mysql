@@ -21,4 +21,9 @@ public class RoleServiceImpl implements RoleService {
     public Role selectRoleAndLazyUsersById(Long roleId) {
         return roleMapper.selectRoleAndLazyUsersById(roleId);
     }
+
+    @Override
+    public Role selectRoleAndLazyUsersChooseRoleEnabledById(Long roleId) {
+        return roleMapper.selectRoleAndLazyUsersChooseRoleEnabledById(roleId);
+    }
 }

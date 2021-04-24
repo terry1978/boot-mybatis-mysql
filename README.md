@@ -59,3 +59,8 @@ show table status from boot like 'tbl_users'; -- 查看数据库中某个表的�
 Type definition error: [simple type, class org.apache.ibatis.executor.loader.javassist.JavassistProxyFactory$EnhancedResultObjectProxyImpl]; nested exception is com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.apache.ibatis.executor.loader.javassist.JavassistProxyFactory$EnhancedResultObjectProxyImpl and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: org.penguin.boot.model.User_$$_jvsteac_0["handler"])
 
 3. 针对Mysql的JSon类型，实现基本的功能，避免了能够存入Json数据，能够读取Json数据，但是保存或读取非Json对象时出错的问题
+
+设计模式
+entity字面是实体的意思，一般和数据库中的表或对象相对应。
+model字面上模型的意思，一般是给前端用的，包含了一些数据校验逻辑，一些数据类型转换的操作。
+domain字面上是域的意思，个人认为是从DDD(Domain Driven Design: 领域驱动设计)而来

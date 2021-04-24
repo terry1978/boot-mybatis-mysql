@@ -19,5 +19,7 @@ public class Role implements Serializable {
 
     private List<User> users;
 
+    private Boolean enabled;
+
     private Date createdTime;
 }

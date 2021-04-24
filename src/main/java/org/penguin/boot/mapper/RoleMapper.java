@@ -11,4 +11,6 @@ public interface RoleMapper {
 
     Role selectRoleAndLazyUsersById(@Param("id") Long roleId);
 
+    Role selectRoleAndLazyUsersChooseRoleEnabledById(Long roleId);
+
 }

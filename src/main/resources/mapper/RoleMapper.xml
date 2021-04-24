@@ -8,6 +8,7 @@
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="comment" column="comment"/>
+        <result property="enabled" column="enabled"/>
         <result property="createdTime" column="created_time"/>
     </resultMap>
 
@@ -28,6 +29,7 @@
         SELECT r.id,
                r.name,
                r.comment,
+               r.enabled,
                r.created_time,
                u.id           "user_id",
                u.full_name    "user_full_name",
@@ -48,6 +50,25 @@
         SELECT r.id,
                r.name,
                r.comment,
+               r.enabled,
+               r.created_time
+        FROM tbl_roles r
+        where r.id = #{id}</select>
+
+    <resultMap type="org.penguin.boot.model.Role" extends="RoleResult" id="RoleChooseContainLazyUsersResult">
+        <!--鉴别器映射(选择器): resultMap的优先级高于resultType-->
+        <discriminator javaType="BOOLEAN" column="enabled">
+            <case value="true" resultMap="RoleContainLazyUsersResult"></case>
+            <case value="false" resultMap="RoleResult"></case>
+
+        </discriminator>
+    </resultMap>
+
+    <select id="selectRoleAndLazyUsersChooseRoleEnabledById" resultMap="RoleChooseContainLazyUsersResult">
+        SELECT r.id,
+               r.name,
+               r.comment,
+               r.enabled,
                r.created_time
         FROM tbl_roles r
         where r.id = #{id}</select>

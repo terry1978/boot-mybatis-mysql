@@ -7,4 +7,5 @@ public interface RoleService {
     Role selectRoleAndUsersById(Long roleId);
 
     Role selectRoleAndLazyUsersById(Long roleId);
+    Role selectRoleAndLazyUsersChooseRoleEnabledById(Long roleId);
 }
