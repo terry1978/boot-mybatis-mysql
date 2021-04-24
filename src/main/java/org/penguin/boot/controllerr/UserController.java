@@ -28,33 +28,18 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/type1/{id}")
-    public ResponseEntity<User> getOrganizationsByName1(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.selectUserAndOrganizationUsingResultTypeById(id));
+    public ResponseEntity<User> selectUserAndOrganizationUsingResultTypeByUserId(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.selectUserAndOrganizationUsingResultTypeByUserId(id));
     }
 
     @GetMapping("/type2/{id}")
-    public ResponseEntity<User> getOrganizationsByName2(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.selectUserAndRoleUsingResultMapById(id));
+    public ResponseEntity<User> selectUserAndRoleUsingResultMapByUserId(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.selectUserAndRoleUsingResultMapByUserId(id));
     }
 
     @GetMapping("/type3/{id}")
-    public ResponseEntity<User> getOrganizationsByName3(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.selectUserAndRoleById3(id));
-    }
-
-    @GetMapping("/type4/{id}")
-    public ResponseEntity<User> getOrganizationsByName4(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.selectUserAndRoleById4(id));
-    }
-
-    @GetMapping("/type5/{id}")
-    public ResponseEntity<User> getOrganizationsByName5(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.selectUserAndRoleById5(id));
-    }
-
-    @GetMapping("/type6/{id}")
-    public ResponseEntity<User> getOrganizationsByName6(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.selectUserAndRoleById6(id));
+    public ResponseEntity<User> selectUserAndLazyOrganizationByUserId(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.selectUserAndLazyOrganizationByUserId(id));
     }
 
     @PostMapping("/create")
@@ -86,7 +71,7 @@ public class UserController {
 
     @PostMapping("/update/{id}/logo")
     public ResponseEntity<User> updateLogo(HttpServletRequest request, @PathVariable("id") Long userId, @RequestParam("file") MultipartFile file, @RequestParam(value = "description", defaultValue = "一个图像文件") String description) throws CustomException {
-        User user = userService.selectUserAndRoleUsingResultMapById(userId);
+        User user = userService.selectUserAndRoleUsingResultMapByUserId(userId);
         if (user == null) {
             throw new CustomException(format("找不到用户: %d", userId));
         }

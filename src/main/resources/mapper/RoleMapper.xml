@@ -12,14 +12,43 @@
     </resultMap>
 
     <resultMap type="org.penguin.boot.model.Role" extends="RoleResult" id="RoleContainUsersResult">
-        <collection property="users" columnPrefix="user_" ofType="org.penguin.boot.model.User">
-            <result property="id" column="id"/>
-            <result property="fullName" column="user_full_name"/>
-            <result property="userName" column="user_user_name"/>
-            <result property="password" column="user_password"/>
-            <result property="email" column="user_email"/>
-            <result property="createdTime" column="user_created_time" jdbcType="TIMESTAMP"/>
-        </collection>
+        <!--        <collection property="users" columnPrefix="user_" ofType="org.penguin.boot.model.User">-->
+        <!--            <id property="id" column="id"/>-->
+        <!--            <result property="fullName" column="full_name"/>-->
+        <!--            <result property="userName" column="user_name"/>-->
+        <!--            <result property="password" column="password"/>-->
+        <!--            <result property="email" column="email"/>-->
+        <!--            <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>-->
+        <!--        </collection>-->
+
+        <collection property="users" columnPrefix="user_" resultMap="org.penguin.boot.mapper.UserMapper.userResult"/>
     </resultMap>
-    
+
+    <select id="selectRoleAndUsersById" resultMap="RoleContainUsersResult">
+        SELECT r.id,
+               r.name,
+               r.comment,
+               r.created_time,
+               u.id           "user_id",
+               u.full_name    "user_full_name",
+               u.user_name    "user_user_name",
+               u.password     "user_password",
+               u.email        "user_email",
+               u.created_time "user_created_time"
+        FROM tbl_roles r
+                 left join tbl_users u on r.id = u.role_id
+        where r.id = #{id}</select>
+
+    <resultMap type="org.penguin.boot.model.Role" extends="RoleResult" id="RoleContainLazyUsersResult">
+        <collection property="users" fetchType="lazy" column="{roleId=id}"
+                    select="org.penguin.boot.mapper.UserMapper.selectUsersByRoleId"/>
+    </resultMap>
+
+    <select id="selectRoleAndLazyUsersById" resultMap="RoleContainLazyUsersResult">
+        SELECT r.id,
+               r.name,
+               r.comment,
+               r.created_time
+        FROM tbl_roles r
+        where r.id = #{id}</select>
 </mapper>

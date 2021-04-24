@@ -20,33 +20,18 @@ public class UserServiceImpl implements UserService {
     OrganizationService organizationService;
 
     @Override
-    public User selectUserAndOrganizationUsingResultTypeById(Long userId) {
-        return userMapper.selectUserAndOrganizationUsingResultTypeById(userId);
+    public User selectUserAndOrganizationUsingResultTypeByUserId(Long userId) {
+        return userMapper.selectUserAndOrganizationUsingResultTypeByUserId(userId);
     }
 
     @Override
-    public User selectUserAndRoleUsingResultMapById(Long userId) {
-        return userMapper.selectUserAndOrganizationUsingResultMapById(userId);
+    public User selectUserAndRoleUsingResultMapByUserId(Long userId) {
+        return userMapper.selectUserAndRoleUsingResultMapByUserId(userId);
     }
 
     @Override
-    public User selectUserAndRoleById3(Long userId) {
-        return userMapper.selectUserAndRoleById3(userId);
-    }
-
-    @Override
-    public User selectUserAndRoleById4(Long userId) {
-        return userMapper.selectUserAndRoleById4(userId);
-    }
-
-    @Override
-    public User selectUserAndRoleById5(Long userId) {
-        return userMapper.selectUserAndRoleById5(userId);
-    }
-
-    @Override
-    public User selectUserAndRoleById6(Long userId) {
-        return userMapper.selectUserAndRoleById6(userId);
+    public User selectUserAndLazyOrganizationByUserId(Long userId) {
+        return userMapper.selectUserAndLazyOrganizationByUserId(userId);
     }
 
     @Override

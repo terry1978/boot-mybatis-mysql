@@ -4,7 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.penguin.boot.mapper.UserMapper">
 
-
     <resultMap id="userResult" type="org.penguin.boot.model.User">
         <result property="id" column="id"/>
         <result property="fullName" column="full_name"/>
@@ -17,24 +16,30 @@
     </resultMap>
 
     <resultMap id="userOrganizationResult" extends="userResult" type="org.penguin.boot.model.User">
-        <result property="organization.id" column="organization_id"/>
-        <result property="organization.name" column="organization_name"/>
-        <result property="organization.code" column="organization_code"/>
-        <result property="organization.status" column="organization_status"/>
-        <result property="organization.createdTime" column="organization_created_time" jdbcType="TIMESTAMP"/>
-    </resultMap>
+        <!--方式2-->
+        <!--        <result property="organization.id" column="organization_id"/>-->
+        <!--        <result property="organization.name" column="organization_name"/>-->
+        <!--        <result property="organization.code" column="organization_code"/>-->
+        <!--        <result property="organization.status" column="organization_status"/>-->
+        <!--        <result property="organization.createdTime" column="organization_created_time" jdbcType="TIMESTAMP"/>-->
 
-    <resultMap id="userOrganizationUsingAssociationResult1" extends="userResult" type="org.penguin.boot.model.User">
+        <!--方式3-->
+        <!--        <association property="organization" columnPrefix="organization_"-->
+        <!--                     javaType="org.penguin.boot.model.Organization">-->
+        <!--            <result property="id" column="id"/>-->
+        <!--            <result property="name" column="name"/>-->
+        <!--            <result property="code" column="code"/>-->
+        <!--            <result property="status" column="status"/>-->
+        <!--            <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>-->
+        <!--        </association>-->
+
+        <!--方式4-->
+        <!--        <association property="organization" columnPrefix="organization_" resultMap="organizationResult"/>-->
+
+        <!--方式5-->
         <association property="organization" columnPrefix="organization_"
-                     javaType="org.penguin.boot.model.Organization">
-            <result property="id" column="id"/>
-            <result property="name" column="name"/>
-            <result property="code" column="code"/>
-            <result property="status" column="status"/>
-            <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
-        </association>
+                     resultMap="org.penguin.boot.mapper.OrganizationMapper.OrganizationResult"/>
     </resultMap>
-
 
     <resultMap id="organizationResult" type="org.penguin.boot.model.Organization">
         <result property="id" column="id"/>
@@ -43,23 +48,15 @@
         <result property="status" column="status"/>
         <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
     </resultMap>
-    <resultMap id="userOrganizationUsingAssociationResult2" extends="userResult" type="org.penguin.boot.model.User">
-        <association property="organization" columnPrefix="organization_" resultMap="organizationResult"/>
-    </resultMap>
 
-    <resultMap id="userOrganizationUsingAssociationResult3" extends="userResult" type="org.penguin.boot.model.User">
-        <association property="organization" columnPrefix="organization_"
-                     resultMap="org.penguin.boot.mapper.OrganizationMapper.OrganizationResult"/>
-    </resultMap>
-
-    <resultMap id="userOrganizationUsingAssociationResult4" extends="userResult" type="org.penguin.boot.model.User">
+    <resultMap id="userAndLazyOrganizationAssociationResult" extends="userResult" type="org.penguin.boot.model.User">
         <association property="organization" column="{id=organization_id}"
                      select="org.penguin.boot.mapper.OrganizationMapper.selectOrganizationById" fetchType="lazy"/>
     </resultMap>
 
 
     <!--方式1: 关联的嵌套结果映射: 一次查询将结果映射到不同对象。-->
-    <select id="selectUserAndRoleUsingResultTypeById" resultType="org.penguin.boot.model.User">
+    <select id="selectUserAndOrganizationUsingResultTypeByUserId" resultType="org.penguin.boot.model.User">
         SELECT u.id,
                u.full_name as fullName,
                u.user_name as userName,
@@ -76,7 +73,7 @@
         where u.id = #{userId}</select>
 
     <!--方式2：使用ResultMap配置一对一映射，可以利用ResultMap的继承，简化并优化ResultMap ok-->
-    <select id="selectUserAndRoleUsingResultMapById" resultMap="userOrganizationResult">
+    <select id="selectUserAndRoleUsingResultMapByUserId" resultMap="userOrganizationResult">
         SELECT u.id,
                u.full_name,
                u.user_name,
@@ -92,59 +89,8 @@
                  inner join tbl_organizations c on u.organization_id = c.id
         where u.id = #{userId}</select>
 
-    <!--方式3：使用resultMap的association标签配置一对一映射方式1-->
-    <select id="selectUserAndRoleById3" resultMap="userOrganizationUsingAssociationResult1">
-        SELECT u.id,
-               u.full_name,
-               u.user_name,
-               u.password,
-               u.email,
-               u.created_time,
-               c.id           "organization_id",
-               c.name         "organization_name",
-               c.code         "organization_code",
-               c.status       "organization_status",
-               c.created_time "organization_created_time"
-        FROM tbl_users u
-                 inner join tbl_organizations c on u.organization_id = c.id
-        where u.id = #{userId}</select>
-
-    <!--方式4：使用resultMap的association标签配置一对一映射方式2-->
-    <select id="selectUserAndRoleById4" resultMap="userOrganizationUsingAssociationResult2">
-        SELECT u.id,
-               u.full_name,
-               u.user_name,
-               u.password,
-               u.email,
-               u.created_time,
-               c.id           "organization_id",
-               c.name         "organization_name",
-               c.code         "organization_code",
-               c.status       "organization_status",
-               c.created_time "organization_created_time"
-        FROM tbl_users u
-                 inner join tbl_organizations c on u.organization_id = c.id
-        where u.id = #{userId}</select>
-
-    <!--方式5：使用resultMap的association标签配置一对一映射方式3-->
-    <select id="selectUserAndRoleById5" resultMap="userOrganizationUsingAssociationResult3">
-        SELECT u.id,
-               u.full_name,
-               u.user_name,
-               u.password,
-               u.email,
-               u.created_time,
-               c.id           "organization_id",
-               c.name         "organization_name",
-               c.code         "organization_code",
-               c.status       "organization_status",
-               c.created_time "organization_created_time"
-        FROM tbl_users u
-                 inner join tbl_organizations c on u.organization_id = c.id
-        where u.id = #{userId}</select>
-
-    <!--方式6：前面的5种方式都是一次性查询，下面开始使用嵌套查询()-->
-    <select id="selectUserAndRoleById6" resultMap="userOrganizationUsingAssociationResult4">
+    <!--前面的5种方式都是一次性查询，下面开始使用嵌套查询()-->
+    <select id="selectUserAndLazyOrganizationByUserId" resultMap="userAndLazyOrganizationAssociationResult">
         SELECT u.id,
                u.full_name,
                u.user_name,
@@ -192,4 +138,14 @@
         </set>
         where id=#{id}
     </update>
+
+    <select id="selectUsersByRoleId" resultMap="userResult">
+        SELECT u.id,
+               u.full_name,
+               u.user_name,
+               u.password,
+               u.email,
+               u.created_time
+        FROM tbl_users u
+        where u.role_id = #{roleId}</select>
 </mapper>
