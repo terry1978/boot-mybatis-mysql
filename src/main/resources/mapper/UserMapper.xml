@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.penguin.boot.mapper.UserMapper">
 
-    <resultMap id="userResult" type="org.penguin.boot.model.User">
+    <resultMap id="userResult" type="User">
         <result property="id" column="id"/>
         <result property="fullName" column="full_name"/>
         <result property="userName" column="user_name"/>
@@ -15,7 +15,7 @@
         <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <resultMap id="userOrganizationResult" extends="userResult" type="org.penguin.boot.model.User">
+    <resultMap id="userOrganizationResult" extends="userResult" type="User">
         <!--方式2-->
         <!--        <result property="organization.id" column="organization_id"/>-->
         <!--        <result property="organization.name" column="organization_name"/>-->
@@ -25,7 +25,7 @@
 
         <!--方式3-->
         <!--        <association property="organization" columnPrefix="organization_"-->
-        <!--                     javaType="org.penguin.boot.model.Organization">-->
+        <!--                     javaType="Organization">-->
         <!--            <result property="id" column="id"/>-->
         <!--            <result property="name" column="name"/>-->
         <!--            <result property="code" column="code"/>-->
@@ -41,7 +41,7 @@
                      resultMap="org.penguin.boot.mapper.OrganizationMapper.OrganizationResult"/>
     </resultMap>
 
-    <resultMap id="organizationResult" type="org.penguin.boot.model.Organization">
+    <resultMap id="organizationResult" type="Organization">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="code" column="code"/>
@@ -49,14 +49,14 @@
         <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <resultMap id="userAndLazyOrganizationAssociationResult" extends="userResult" type="org.penguin.boot.model.User">
+    <resultMap id="userAndLazyOrganizationAssociationResult" extends="userResult" type="User">
         <association property="organization" column="{id=organization_id}"
                      select="org.penguin.boot.mapper.OrganizationMapper.selectOrganizationById" fetchType="lazy"/>
     </resultMap>
 
 
     <!--方式1: 关联的嵌套结果映射: 一次查询将结果映射到不同对象。-->
-    <select id="selectUserAndOrganizationUsingResultTypeByUserId" resultType="org.penguin.boot.model.User">
+    <select id="selectUserAndOrganizationUsingResultTypeByUserId" resultType="User">
         SELECT u.id,
                u.full_name as fullName,
                u.user_name as userName,

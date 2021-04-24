@@ -5,7 +5,7 @@
 <mapper namespace="org.penguin.boot.mapper.OrganizationMapper">
     <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
 
-    <resultMap type="org.penguin.boot.model.Organization" id="OrganizationResult">
+    <resultMap type="Organization" id="OrganizationResult">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="code" column="code"/>
