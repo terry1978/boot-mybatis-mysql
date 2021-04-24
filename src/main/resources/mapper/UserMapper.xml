@@ -59,7 +59,7 @@
 
 
     <!--方式1: 关联的嵌套结果映射: 一次查询将结果映射到不同对象。-->
-    <select id="selectUserAndRoleById1" resultType="org.penguin.boot.model.User">
+    <select id="selectUserAndRoleUsingResultTypeById" resultType="org.penguin.boot.model.User">
         SELECT u.id,
                u.full_name as fullName,
                u.user_name as userName,
@@ -76,7 +76,7 @@
         where u.id = #{userId}</select>
 
     <!--方式2：使用ResultMap配置一对一映射，可以利用ResultMap的继承，简化并优化ResultMap ok-->
-    <select id="selectUserAndRoleById2" resultMap="userOrganizationResult">
+    <select id="selectUserAndRoleUsingResultMapById" resultMap="userOrganizationResult">
         SELECT u.id,
                u.full_name,
                u.user_name,

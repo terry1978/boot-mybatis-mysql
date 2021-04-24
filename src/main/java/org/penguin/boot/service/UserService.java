@@ -4,9 +4,9 @@ import org.penguin.boot.model.User;
 
 public interface UserService {
 
-    User selectUserAndRoleById1(Long userId);
+    User selectUserAndOrganizationUsingResultTypeById(Long userId);
 
-    User selectUserAndRoleById2(Long userId);
+    User selectUserAndRoleUsingResultMapById(Long userId);
 
     User selectUserAndRoleById3(Long userId);
 

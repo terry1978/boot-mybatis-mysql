@@ -6,9 +6,9 @@ import org.penguin.boot.model.User;
 @Mapper
 public interface UserMapper {
 
-    User selectUserAndRoleById1(Long userId);
+    User selectUserAndOrganizationUsingResultTypeById(Long userId);
 
-    User selectUserAndRoleById2(Long userId);
+    User selectUserAndOrganizationUsingResultMapById(Long userId);
 
     User selectUserAndRoleById3(Long userId);
 

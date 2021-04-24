@@ -29,12 +29,12 @@ public class UserController {
 
     @GetMapping("/type1/{id}")
     public ResponseEntity<User> getOrganizationsByName1(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.selectUserAndRoleById1(id));
+        return ResponseEntity.ok(userService.selectUserAndOrganizationUsingResultTypeById(id));
     }
 
     @GetMapping("/type2/{id}")
     public ResponseEntity<User> getOrganizationsByName2(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.selectUserAndRoleById2(id));
+        return ResponseEntity.ok(userService.selectUserAndRoleUsingResultMapById(id));
     }
 
     @GetMapping("/type3/{id}")
@@ -86,7 +86,7 @@ public class UserController {
 
     @PostMapping("/update/{id}/logo")
     public ResponseEntity<User> updateLogo(HttpServletRequest request, @PathVariable("id") Long userId, @RequestParam("file") MultipartFile file, @RequestParam(value = "description", defaultValue = "一个图像文件") String description) throws CustomException {
-        User user = userService.selectUserAndRoleById2(userId);
+        User user = userService.selectUserAndRoleUsingResultMapById(userId);
         if (user == null) {
             throw new CustomException(format("找不到用户: %d", userId));
         }
