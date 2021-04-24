@@ -60,6 +60,14 @@ Type definition error: [simple type, class org.apache.ibatis.executor.loader.jav
 
 3. 针对Mysql的JSon类型，实现基本的功能，避免了能够存入Json数据，能够读取Json数据，但是保存或读取非Json对象时出错的问题
 
+Mysql中针对Boolean类型的存储
+TINYINT(1) = Boolean
+因为TINYINT(1)的值不仅可以存储0或1，在mysql中查询要注意下面的sql的区别，而传递给Java是按0为false，否则为true处理，导致Java没问题。
+所以在mysql中，要用
+SELECT true, false, TRUE, FALSE, True, False;
+
+SELECT * FROM tbl_roles where enabled is not true; -- enabled is null or enabled = false
+
 设计模式
 entity字面是实体的意思，一般和数据库中的表或对象相对应。
 model字面上模型的意思，一般是给前端用的，包含了一些数据校验逻辑，一些数据类型转换的操作。
